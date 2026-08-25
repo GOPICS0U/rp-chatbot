@@ -1,0 +1,1 @@
+ALTER TABLE "Character" ADD COLUMN "imagePrompt" TEXT NOT NULL DEFAULT "";

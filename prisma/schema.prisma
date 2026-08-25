@@ -19,6 +19,7 @@ model Character {
   flaws       String    @default("")
   rules       String    @default("")
   lore        String    @default("")
+  imagePrompt String    @default("")
   model       String    @default("gemma3:12b")
   temperature Float     @default(0.8)
   summary     String    @default("")
@@ -44,6 +45,9 @@ model Message {
   id             String       @id @default(cuid())
   role           String
   content        String
+  type           String       @default("text")
+  imageUrl       String?
+  imagePrompt    String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   characterId    String

@@ -1,29 +1,44 @@
-# RP Chatbot V4
+# RP Chatbot V6
 
-Chatbot RP local avec Next.js, TypeScript, Tailwind, Ollama, SQLite et Prisma.
+Chatbot RP local avec Next.js, Ollama, SQLite + Prisma et génération d'images Perchance.
 
 ## Installation
 
 ```bash
 npm install
-npx prisma migrate dev --name v4
+npx prisma migrate dev --name v6_4_character_image_prompt --name v6
 npm run dev
 ```
 
-Ollama :
+Configure `.env` :
 
-```bash
-ollama pull gemma3:12b
+```env
+DATABASE_URL="file:./dev.db"
+OLLAMA_URL="http://localhost:11434"
+OLLAMA_MODEL="gemma3:12b"
 ```
 
-Puis ouvre http://localhost:3000.
+Ollama doit être lancé localement et le modèle choisi doit être installé.
 
-## V4
+## Images
 
-- Personnages avancés : background, objectifs, goûts, défauts, règles, lore.
-- Conversations persistantes.
-- Streaming Ollama et arrêt de génération.
-- Température et modèle par personnage.
-- Mémoire résumée automatiquement périodiquement.
-- Modification, suppression et régénération des messages.
-- SQLite/Prisma avec migrations.
+Le bouton 📷 permet de demander manuellement une image dans une conversation. L'image est générée via Perchance puis sauvegardée localement dans `public/generated/` et enregistrée comme message de la conversation.
+
+### Perchance — images
+
+La génération Perchance utilise Chromium via Playwright pour effectuer la vérification côté navigateur.
+Après `npm install`, installe le navigateur une fois :
+
+```bash
+npx playwright install chromium
+```
+
+### Images
+- 📷 opens the image generator.
+- Typing `[photo]` at the start of a message triggers image generation; everything after `[photo]` is used as the scene prompt.
+- A hidden visual prefix automatically adds the character description and a consistent anime-art style.
+
+
+## V6.4
+
+La génération d’image utilise une identité visuelle propre à chaque personnage, construite automatiquement depuis sa fiche. Le prompt de scène utilisateur est ensuite ajouté explicitement pour préserver les actions et objets demandés.
